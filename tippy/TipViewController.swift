@@ -56,12 +56,15 @@ class TipViewController: UIViewController {
         let storedBill = defaults.integer(forKey:"billField")
 
         let now = NSDate()
+        print("now \(now)")
         var difference: TimeInterval = 0
         
         if let lastChanged = defaults.object(forKey:"lastChanged") as? Date {
+            print("lastChanged \(lastChanged)")
             difference = now.timeIntervalSince(lastChanged)
+            print("difference \(difference)")
         }
-
+        
         if (storedBill != 0) && (difference <= 600) {
             billField.text = String(storedBill)
         }
@@ -129,7 +132,7 @@ class TipViewController: UIViewController {
         }
         
         
-        defaults.set(billField.text,forKey:"billField")
+        defaults.set(onlyNums(str:billField.text!),forKey:"billField")
         defaults.set(NSDate(), forKey:"lastChanged")
     }
     
@@ -164,6 +167,28 @@ class TipViewController: UIViewController {
         
         tipLabel.text = String(format: "$%.2f",tip)
         totalLabel.text = String(format: "$%.2f",total)
+        
+        // Add commas to billField
+        
+        var largeNumber :String = onlyNums(str: billField.text!)
+        
+        if(largeNumber == ""){
+            largeNumber = "0"
+        }
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        let commas = numberFormatter.string(from: NSNumber(value: Int(largeNumber)!))
+        
+        if let commas = commas {
+            if( commas != "0"){
+                billField.text = "$\(commas)"
+            }
+        }
+        
+        
+
+        
+        
     }
     
     func onlyNums(str: String) -> String{
@@ -172,6 +197,10 @@ class TipViewController: UIViewController {
             let num = Int(String(k))
             
             if num != nil {
+                nums = "\(nums)\(String(k))"
+            }
+            
+            if(String(k) == "."){
                 nums = "\(nums)\(String(k))"
             }
             
