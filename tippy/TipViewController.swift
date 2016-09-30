@@ -7,7 +7,20 @@
 //
 
 import UIKit
-
+extension String {
+    subscript(i: Int) -> String {
+        guard i >= 0 && i < characters.count else { return "" }
+        return String(self[index(startIndex, offsetBy: i)])
+    }
+    subscript(range: Range<Int>) -> String {
+        let lowerIndex = index(startIndex, offsetBy: max(0,range.lowerBound), limitedBy: endIndex) ?? endIndex
+        return substring(with: lowerIndex..<(index(lowerIndex, offsetBy: range.upperBound - range.lowerBound, limitedBy: endIndex) ?? endIndex))
+    }
+    subscript(range: ClosedRange<Int>) -> String {
+        let lowerIndex = index(startIndex, offsetBy: max(0,range.lowerBound), limitedBy: endIndex) ?? endIndex
+        return substring(with: lowerIndex..<(index(lowerIndex, offsetBy: range.upperBound - range.lowerBound + 1, limitedBy: endIndex) ?? endIndex))
+    }
+}
 class TipViewController: UIViewController {
     
     
@@ -32,6 +45,11 @@ class TipViewController: UIViewController {
         super.viewWillAppear(animated)
         // Add cursor to bill field
         billField.becomeFirstResponder()
+        var bill: String = billField.text!
+        if(bill.characters.first == nil) {
+            billField.text = "$"
+        }
+        
         let defaults = UserDefaults.standard
         
         // Check for previously stored bill value
@@ -104,6 +122,12 @@ class TipViewController: UIViewController {
     @IBAction func onBillChange(_ sender: AnyObject) {
         calculateTip()
         let defaults = UserDefaults.standard
+        let bill: String = String(billField.text!) ?? "0"
+
+        if(bill.characters.first == nil) {
+            billField.text = "$"
+        }
+        
         
         defaults.set(billField.text,forKey:"billField")
         defaults.set(NSDate(), forKey:"lastChanged")
@@ -133,15 +157,28 @@ class TipViewController: UIViewController {
     }
     // Calculate tip and render view changes
     func calculateTip () {
-        
-        let bill = Double(billField.text!) ?? 0
+        let billNum = onlyNums(str: billField.text!)
+        let bill = Double(billNum) ?? 0
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
         
         tipLabel.text = String(format: "$%.2f",tip)
         totalLabel.text = String(format: "$%.2f",total)
     }
-
+    
+    func onlyNums(str: String) -> String{
+        var nums = ""
+        for k in str.characters {
+            let num = Int(String(k))
+            
+            if num != nil {
+                nums = "\(nums)\(String(k))"
+            }
+            
+        }
+        
+        return nums
+    }
     
 }
 
