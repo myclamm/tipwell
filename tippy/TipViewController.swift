@@ -34,6 +34,21 @@ class TipViewController: UIViewController {
         billField.becomeFirstResponder()
         let defaults = UserDefaults.standard
         
+        // Check for previously stored bill value
+        let storedBill = defaults.integer(forKey:"billField")
+
+        let now = NSDate()
+        var difference: TimeInterval = 0
+        
+        if let lastChanged = defaults.object(forKey:"lastChanged") as? Date {
+            difference = now.timeIntervalSince(lastChanged)
+        }
+
+        if (storedBill != 0) && (difference <= 600) {
+            billField.text = String(storedBill)
+        }
+        
+        
         // If user changed default tips in settings, update tipPercentages
         tipPercentages = defaults.array(forKey:"tipDefault") as? [Double] ?? tipPercentages
         
@@ -88,7 +103,10 @@ class TipViewController: UIViewController {
     // Because we need to recalculate tip when bill changes
     @IBAction func onBillChange(_ sender: AnyObject) {
         calculateTip()
+        let defaults = UserDefaults.standard
         
+        defaults.set(billField.text,forKey:"billField")
+        defaults.set(NSDate(), forKey:"lastChanged")
     }
     
     func animateBackground () {
@@ -123,7 +141,7 @@ class TipViewController: UIViewController {
         tipLabel.text = String(format: "$%.2f",tip)
         totalLabel.text = String(format: "$%.2f",total)
     }
-    
+
     
 }
 
