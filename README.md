@@ -21,7 +21,7 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [ x] Users can change the default tip options
+- [x] Users can change the default tip options
 
 ## Video Walkthrough 
 
