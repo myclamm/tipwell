@@ -21,6 +21,8 @@ extension String {
         return substring(with: lowerIndex..<(index(lowerIndex, offsetBy: range.upperBound - range.lowerBound + 1, limitedBy: endIndex) ?? endIndex))
     }
 }
+let locale = Locale.current
+let currencySymbol = locale.currencySymbol
 class TipViewController: UIViewController {
     
     
@@ -45,9 +47,10 @@ class TipViewController: UIViewController {
         super.viewWillAppear(animated)
         // Add cursor to bill field
         billField.becomeFirstResponder()
+        
         var bill: String = billField.text!
         if(bill.characters.first == nil) {
-            billField.text = "$"
+            billField.text = currencySymbol
         }
         
         let defaults = UserDefaults.standard
@@ -128,7 +131,7 @@ class TipViewController: UIViewController {
         let bill: String = String(billField.text!) ?? "0"
 
         if(bill.characters.first == nil) {
-            billField.text = "$"
+            billField.text = currencySymbol
         }
         
         
@@ -165,8 +168,14 @@ class TipViewController: UIViewController {
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
         
-        tipLabel.text = String(format: "$%.2f",tip)
-        totalLabel.text = String(format: "$%.2f",total)
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = NSLocale.current
+        
+        tipLabel.text = formatter.string(from:  NSNumber.init( value: Int32(tip)))
+        totalLabel.text = formatter.string(from:  NSNumber.init( value: Int32(total)))
+        
+        
         
         // Add commas to billField
         
@@ -181,7 +190,7 @@ class TipViewController: UIViewController {
         
         if let commas = commas {
             if( commas != "0"){
-                billField.text = "$\(commas)"
+                billField.text = "\(currencySymbol!)\(commas)"
             }
         }
         
