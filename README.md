@@ -23,6 +23,7 @@ The following **optional** features are implemented:
 The following **additional** features are implemented:
 
 - [x] Users can change the default tip options
+- [x] Bill value is always prefixed by a currency symbol
 
 ## Video Walkthrough 
 
@@ -38,7 +39,7 @@ I spent a lot of time trying to make the app look halfway decent. It's surprisin
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright Mike Lam
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
