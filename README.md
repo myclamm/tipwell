@@ -4,7 +4,7 @@
 
 Submitted by: **Michael Lam**
 
-Time spent: **18** hours spent in total
+Time spent: **19** hours spent in total
 
 ## User Stories
 
