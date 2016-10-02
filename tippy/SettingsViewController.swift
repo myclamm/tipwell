@@ -7,7 +7,6 @@
 //
 
 import UIKit
-
 class SettingsViewController: UIViewController {
     
     // Refers to the default tip input
@@ -23,7 +22,7 @@ class SettingsViewController: UIViewController {
     // Before view loads
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         // Set default tip to be whatever's stored in UserDefault
         let defaults = UserDefaults.standard
         defaultTipIndex.selectedSegmentIndex = defaults.integer(forKey:"defaultTipIndex")
@@ -50,6 +49,8 @@ class SettingsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     
     // Invoked whenever default tip is changed
     @IBAction func changeDefaultTip(_ sender: AnyObject) {
@@ -137,5 +138,6 @@ class SettingsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+   
+    
 }
