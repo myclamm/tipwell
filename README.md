@@ -4,7 +4,7 @@
 
 Submitted by: **Michael Lam**
 
-Time spent: **14** hours spent in total
+Time spent: **18** hours spent in total
 
 ## User Stories
 
@@ -24,6 +24,7 @@ The following **additional** features are implemented:
 
 - [x] Users can change the default tip options
 - [x] Bill value is always prefixed by a currency symbol
+- [x] User can enter decimals for Bill Value
 
 ## Video Walkthrough 
 
@@ -35,7 +36,9 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-I spent a lot of time trying to make the app look halfway decent. It's surprisingly difficult to design mobile apps. One technical challenge was that sometimes XCode's error messages are difficult to make sense of. Learning the ins and outs of XCode's user interface seems like it will be a much larger task than learning Swift itself, but I want to learn!
+A few noteworthy challenges:
+1) Getting the bill field to display in currency format and accept decimals
+2) Designing the app to look nice
 
 ## License
 
