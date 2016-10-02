@@ -44,7 +44,7 @@ class TipViewController: UIViewController {
         print("billField.text2")
         print(billField.text)
         // Check for previously stored bill value
-        let storedBill = defaults.integer(forKey:"billField")
+        let storedBill = defaults.string(forKey:"billField")
         
         let now = NSDate()
         print("now \(now)")
@@ -56,10 +56,10 @@ class TipViewController: UIViewController {
             print("difference \(difference)")
         }
         
-        if (storedBill != 0) && (difference <= 600) {
+        if (storedBill != "0") && (difference <= 600) {
             print("billField.text3")
             print(billField.text)
-            billField.text = String(storedBill)
+            billField.text = storedBill
             print("billField.text4")
             print(billField.text)
         }
@@ -130,6 +130,10 @@ class TipViewController: UIViewController {
         }
         var text = String(describing: billField.text!)
         let nums = onlyNums(str: text)
+        let defaults = UserDefaults.standard
+        print("setting billfield \(billField.text)")
+        
+        defaults.set(NSDate(), forKey:"lastChanged")
         
         // Edge case: If user starts by typing ".0"
         if Float(nums) == 0 {
@@ -140,10 +144,12 @@ class TipViewController: UIViewController {
         // Edge case: If last digit is a decimal
         if text.characters.last == "." {
             if (text == "." ) {
+                defaults.set(billField.text,forKey:"billField")
                 return
             }
             if (Float(nums)==nil) {
                 billField.text = String(text.characters.dropLast())
+                defaults.set(billField.text,forKey:"billField")
                 return
             }
             return
@@ -163,10 +169,12 @@ class TipViewController: UIViewController {
                     formatter.locale = NSLocale.current
                     self.tipLabel.text = formatter.string(from:  NSNumber.init( value: Float64(tip)))
                     self.totalLabel.text = formatter.string(from:  NSNumber.init( value: Float64(total)))
+                    defaults.set(billField.text,forKey:"billField")
                     return
                 }
             }
         }
+        defaults.set(billField.text,forKey:"billField")
         let billVal = Double(nums) ?? 0
         calculateTip(bill: billVal)
 
