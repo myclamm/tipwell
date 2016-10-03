@@ -261,12 +261,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tippy/TipViewController.swift"
-            timestampString = "497151018.891425"
+            timestampString = "497163042.310551"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "calculateTip(bill:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "tippy/TipViewController.swift"
+            timestampString = "497163042.310551"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "299"
+            endingLineNumber = "299"
+            landmarkName = "numberOfDecimalPlaces(str:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

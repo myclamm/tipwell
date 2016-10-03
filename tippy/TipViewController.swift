@@ -68,7 +68,7 @@ class TipViewController: UIViewController {
         if (storedBill != "0") && (difference <= 600) {
             print("billField.text3")
             print(billField.text)
-            billField.text = storedBill
+//            billField.text = storedBill
             print("billField.text4")
             print(billField.text)
         }
@@ -133,6 +133,7 @@ class TipViewController: UIViewController {
     
     // Because we need to recalculate tip when bill changes
     @IBAction func onBillChange(_ sender: AnyObject) {
+        print("onBillChange function invoked")
         let defaults = UserDefaults.standard
         defaults.set(NSDate(), forKey:"lastChanged")
         
@@ -140,11 +141,17 @@ class TipViewController: UIViewController {
         if (billField.text?.characters.first == nil) {
             billField.text = currencySymbol
         }
-        
         var input = String(describing: billField.text!)
-        
         // strip input of nonNumeric characters, but retain "."'s
         let numString = onlyNums(str: input)
+        
+        // Enforce two decimals
+        if (numberOfDecimalPlaces(str: billField.text!) > 2){
+            billField.text = String(input.characters.dropLast())
+            defaults.set(billField.text,forKey:"billField")
+            return
+        }
+        
         
         print("setting billfield \(billField.text)")
         
@@ -240,8 +247,9 @@ class TipViewController: UIViewController {
         
         
         formatter.numberStyle = NumberFormatter.Style.decimal
-        let shortenedBill: Float = Float(bill.string(fractionDigits: 2))!
+        let shortenedBill: Double = Double(bill.string(fractionDigits: 2))!
         print("shortenedBill \(shortenedBill)")
+        
 //        let commas = formatter.string(from: NSNumber(value: Double(bill)))
         let commas = formatter.string(from: NSNumber.init( value: shortenedBill))
         print("commas \(commas)")
@@ -253,6 +261,7 @@ class TipViewController: UIViewController {
                 billField.text = "\(currencySymbol!)\("")"
             }
         }
+        print("billfield \(billField.text)")
 
     }
     
@@ -272,6 +281,21 @@ class TipViewController: UIViewController {
         }
         
         return nums
+    }
+    
+    func numberOfDecimalPlaces(str: String) -> Float{
+        var decimalFound = false
+        var decimalCount: Float = 0
+        for k in str.characters {
+            if(decimalFound == true){
+                decimalCount += 1
+            }
+            if k == "." {
+                decimalFound = true;
+            }
+            
+        }
+        return decimalCount
     }
     
 }
