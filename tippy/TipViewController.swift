@@ -59,18 +59,12 @@ class TipViewController: UIViewController {
         print("now \(now)")
         var difference: TimeInterval = 0
         
-        if let lastChanged = defaults.object(forKey:"lastChanged") as? Date {
-            print("lastChanged \(lastChanged)")
+        if let lastChanged = defaults.object(forKey:Const.DefaultsKeys.lastChanged) as? Date {
             difference = now.timeIntervalSince(lastChanged)
-            print("difference \(difference)")
         }
         
         if (storedBill != "0") && (difference <= 600) {
-            print("billField.text3")
-            print(billField.text)
-//            billField.text = storedBill
-            print("billField.text4")
-            print(billField.text)
+            billField.text = storedBill
         }
         
         
@@ -135,7 +129,7 @@ class TipViewController: UIViewController {
     @IBAction func onBillChange(_ sender: AnyObject) {
         print("onBillChange function invoked")
         let defaults = UserDefaults.standard
-        defaults.set(NSDate(), forKey:"lastChanged")
+        defaults.set(NSDate(), forKey: Const.DefaultsKeys.lastChanged)
         
         // Always prefix with dollar symbol
         if (billField.text?.characters.first == nil) {
@@ -151,7 +145,6 @@ class TipViewController: UIViewController {
             defaults.set(billField.text,forKey:"billField")
             return
         }
-        
         
         print("setting billfield \(billField.text)")
         

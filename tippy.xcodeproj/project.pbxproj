@@ -15,6 +15,7 @@
 		94E45B121D9B7E0100E3B5C1 /* tippyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E45B111D9B7E0100E3B5C1 /* tippyTests.swift */; };
 		94E45B1D1D9B7E0100E3B5C1 /* tippyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E45B1C1D9B7E0100E3B5C1 /* tippyUITests.swift */; };
 		94E45B2B1D9B9DCF00E3B5C1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E45B2A1D9B9DCF00E3B5C1 /* SettingsViewController.swift */; };
+		94FD75851DA2307D00F13ABD /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FD75841DA2307D00F13ABD /* Const.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		94E45B1C1D9B7E0100E3B5C1 /* tippyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tippyUITests.swift; sourceTree = "<group>"; };
 		94E45B1E1D9B7E0100E3B5C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94E45B2A1D9B9DCF00E3B5C1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		94FD75841DA2307D00F13ABD /* Const.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				94E45AFC1D9B7E0100E3B5C1 /* AppDelegate.swift */,
 				94E45AFE1D9B7E0100E3B5C1 /* TipViewController.swift */,
 				94E45B2A1D9B9DCF00E3B5C1 /* SettingsViewController.swift */,
+				94FD75841DA2307D00F13ABD /* Const.swift */,
 				94E45B001D9B7E0100E3B5C1 /* Main.storyboard */,
 				94E45B031D9B7E0100E3B5C1 /* Assets.xcassets */,
 				94E45B051D9B7E0100E3B5C1 /* LaunchScreen.storyboard */,
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94E45AFF1D9B7E0100E3B5C1 /* TipViewController.swift in Sources */,
+				94FD75851DA2307D00F13ABD /* Const.swift in Sources */,
 				94E45AFD1D9B7E0100E3B5C1 /* AppDelegate.swift in Sources */,
 				94E45B2B1D9B9DCF00E3B5C1 /* SettingsViewController.swift in Sources */,
 			);
