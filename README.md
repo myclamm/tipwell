@@ -38,8 +38,9 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 A few noteworthy challenges:
-1) Getting the bill field to look and act like currency (e.g. dynamic comma insertion, allowing for decimals, and enforcing two decimal place max)
-3) Designing the app to look nice 
+
+1. Getting the bill field to look and act like currency (e.g. dynamic comma insertion, allowing for decimals, and enforcing two decimal place max)
+2. Designing the app to look nice 
 
 ## License
 
