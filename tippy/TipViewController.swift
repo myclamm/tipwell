@@ -7,6 +7,15 @@
 //
 
 import UIKit
+extension Float {
+    func string(fractionDigits:Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = fractionDigits
+        formatter.maximumFractionDigits = fractionDigits
+        
+        return formatter.string(from: NSNumber.init( value: self)) ?? "\(self)"
+    }
+}
 
 let locale = Locale.current
 let currencySymbol = locale.currencySymbol
@@ -23,7 +32,7 @@ class TipViewController: UIViewController {
     @IBOutlet weak var tipLabel: UILabel!
     
     // Default tip percentages
-    var tipPercentages: [Double] = [0.18,0.2,0.25]
+    var tipPercentages: [Float] = [0.18,0.2,0.25]
     let white = UIColor(red:0.97, green:1.00, blue:0.97, alpha:1.0)
     
 
@@ -66,7 +75,7 @@ class TipViewController: UIViewController {
         
         
         // If user changed default tips in settings, update tipPercentages
-        tipPercentages = defaults.array(forKey:"tipDefault") as? [Double] ?? tipPercentages
+        tipPercentages = defaults.array(forKey:"tipDefault") as? [Float] ?? tipPercentages
         
         // Update tipControl view
         for (i,v) in tipPercentages.enumerated() {
@@ -80,7 +89,7 @@ class TipViewController: UIViewController {
         // Recalculate tip
         let text = String(describing: billField.text!)
         let nums = onlyNums(str: text)
-        let bill = Double(nums) ?? 0
+        let bill = Float(nums) ?? 0
         calculateTip(bill: bill)
         animateBackground()
         
@@ -117,38 +126,44 @@ class TipViewController: UIViewController {
     @IBAction func onTipChange(_ sender: AnyObject) {
         let text = String(describing: billField.text!)
         let nums = onlyNums(str: text)
-        let bill = Double(nums) ?? 0
+        let bill = Float(nums) ?? 0
         calculateTip(bill: bill)
         animateBackground()
     }
     
     // Because we need to recalculate tip when bill changes
     @IBAction func onBillChange(_ sender: AnyObject) {
+        let defaults = UserDefaults.standard
+        defaults.set(NSDate(), forKey:"lastChanged")
+        
         // Always prefix with dollar symbol
         if (billField.text?.characters.first == nil) {
             billField.text = currencySymbol
         }
-        var text = String(describing: billField.text!)
-        let nums = onlyNums(str: text)
-        let defaults = UserDefaults.standard
+        
+        var input = String(describing: billField.text!)
+        
+        // strip input of nonNumeric characters, but retain "."'s
+        let numString = onlyNums(str: input)
+        
         print("setting billfield \(billField.text)")
         
-        defaults.set(NSDate(), forKey:"lastChanged")
-        
-        // Edge case: If user starts by typing ".0"
-        if Float(nums) == 0 {
+        // Edge case: Prevent ".0" from being translated into 0
+        if Float(numString) == 0 {
             print("equals 0")
             return
         }
         
-        // Edge case: If last digit is a decimal
-        if text.characters.last == "." {
-            if (text == "." ) {
-                defaults.set(billField.text,forKey:"billField")
-                return
-            }
-            if (Float(nums)==nil) {
-                billField.text = String(text.characters.dropLast())
+        // Edge case: Prevent "." from being translated into 0
+        if (input == "." ) {
+            defaults.set(billField.text,forKey:"billField")
+            return
+        }
+        
+        // Edge case: Prevent user from inputting multiple decimals
+        if input.characters.last == "." {
+            if (Float(numString)==nil) {
+                billField.text = String(input.characters.dropLast())
                 defaults.set(billField.text,forKey:"billField")
                 return
             }
@@ -156,11 +171,11 @@ class TipViewController: UIViewController {
         }
         
         // HACK: to avoid converting x.0 to x while user is typing
-        if text.range(of: "\(currencySymbol!).") == nil {
-            if text.range(of:".") != nil {
-                let last = text.characters.last
+        if input.range(of: "\(currencySymbol!).") == nil {
+            if input.range(of:".") != nil {
+                let last = input.characters.last
                 if last == "0" {
-                    let bill: Double = Double(nums)!
+                    let bill: Float = Float(numString)!
                     let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
                     let total = bill + tip
                     
@@ -174,8 +189,14 @@ class TipViewController: UIViewController {
                 }
             }
         }
+        
+        // Store bill in case user turns off app
         defaults.set(billField.text,forKey:"billField")
-        let billVal = Double(nums) ?? 0
+        
+        // Convert input to a number and default to 0 in case of empty input
+        let billVal = Float(numString) ?? 0
+        
+        // Calculate tip and transform bill & tip views
         calculateTip(bill: billVal)
 
     }
@@ -202,24 +223,34 @@ class TipViewController: UIViewController {
                 
         })
     }
+    
     // Calculate tip and render view changes
-    func calculateTip (bill: Double) {
+    func calculateTip (bill: Float) {
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
+        print("bill \(bill)")
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.locale = NSLocale.current
+        
+        // Format tip and total views to look like currency
         tipLabel.text = formatter.string(from:  NSNumber.init( value: Float64(tip)))
         totalLabel.text = formatter.string(from:  NSNumber.init( value: Float64(total)))
         
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = NumberFormatter.Style.decimal
         
-        let commas = numberFormatter.string(from: NSNumber(value: Double(bill)))
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        let shortenedBill: Float = Float(bill.string(fractionDigits: 2))!
+        print("shortenedBill \(shortenedBill)")
+//        let commas = formatter.string(from: NSNumber(value: Double(bill)))
+        let commas = formatter.string(from: NSNumber.init( value: shortenedBill))
+        print("commas \(commas)")
+//        billField.text = "\(currencySymbol!)\(String(commas!)!)"
         if let commas = commas {
             if( commas != "0") {
                 billField.text = "\(currencySymbol!)\(commas)"
+            } else {
+                billField.text = "\(currencySymbol!)\("")"
             }
         }
 
