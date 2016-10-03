@@ -4,7 +4,7 @@
 
 Submitted by: **Michael Lam**
 
-Time spent: **19** hours spent in total
+Time spent: **23** hours spent in total
 
 ## User Stories
 
@@ -20,11 +20,12 @@ The following **optional** features are implemented:
 * [x] Using locale-specific currency
 * [x] Making sure the keyboard is always visible and the bill amount is always the first responder. This way the user doesn't have to tap anywhere to use this app. Just launch the app and start typing.
 
-The following **additional** features are implemented:
+The following **additional** UX features are implemented:
 
-- [x] Users can change the default tip options
-- [x] Bill value is always prefixed by a currency symbol
-- [x] User can enter decimals for Bill Value
+- [x] Users can change their default tip options
+- [x] The Bill value is always prefixed by a currency symbol
+- [x] The Bill value is formatted with commas dynamically
+- [x] The Bill value is capped to two decimal places
 
 ## Video Walkthrough 
 
@@ -37,8 +38,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 A few noteworthy challenges:
-1) Getting the bill field to display in currency format and accept decimals
-2) Designing the app to look nice
+1) Getting the bill field to look and act like currency (e.g. dynamic comma insertion, allowing for decimals, and enforcing two decimal place max)
+3) Designing the app to look nice 
 
 ## License
 
