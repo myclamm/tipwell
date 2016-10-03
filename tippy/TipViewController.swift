@@ -7,7 +7,7 @@
 //
 
 import UIKit
-extension Float {
+extension Double {
     func string(fractionDigits:Int) -> String {
         let formatter = NumberFormatter()
         formatter.minimumFractionDigits = fractionDigits
@@ -32,7 +32,7 @@ class TipViewController: UIViewController {
     @IBOutlet weak var tipLabel: UILabel!
     
     // Default tip percentages
-    var tipPercentages: [Float] = [0.18,0.2,0.25]
+    var tipPercentages: [Double] = [0.18,0.2,0.25]
     let white = UIColor(red:0.97, green:1.00, blue:0.97, alpha:1.0)
     
 
@@ -75,7 +75,7 @@ class TipViewController: UIViewController {
         
         
         // If user changed default tips in settings, update tipPercentages
-        tipPercentages = defaults.array(forKey:"tipDefault") as? [Float] ?? tipPercentages
+        tipPercentages = defaults.array(forKey:"tipDefault") as? [Double] ?? tipPercentages
         
         // Update tipControl view
         for (i,v) in tipPercentages.enumerated() {
@@ -89,7 +89,7 @@ class TipViewController: UIViewController {
         // Recalculate tip
         let text = String(describing: billField.text!)
         let nums = onlyNums(str: text)
-        let bill = Float(nums) ?? 0
+        let bill = Double(nums) ?? 0
         calculateTip(bill: bill)
         animateBackground()
         
@@ -126,7 +126,7 @@ class TipViewController: UIViewController {
     @IBAction func onTipChange(_ sender: AnyObject) {
         let text = String(describing: billField.text!)
         let nums = onlyNums(str: text)
-        let bill = Float(nums) ?? 0
+        let bill = Double(nums) ?? 0
         calculateTip(bill: bill)
         animateBackground()
     }
@@ -182,7 +182,7 @@ class TipViewController: UIViewController {
             if input.range(of:".") != nil {
                 let last = input.characters.last
                 if last == "0" {
-                    let bill: Float = Float(numString)!
+                    let bill: Double = Double(numString)!
                     let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
                     let total = bill + tip
                     
@@ -201,7 +201,7 @@ class TipViewController: UIViewController {
         defaults.set(billField.text,forKey:"billField")
         
         // Convert input to a number and default to 0 in case of empty input
-        let billVal = Float(numString) ?? 0
+        let billVal = Double(numString) ?? 0
         
         // Calculate tip and transform bill & tip views
         calculateTip(bill: billVal)
@@ -232,7 +232,7 @@ class TipViewController: UIViewController {
     }
     
     // Calculate tip and render view changes
-    func calculateTip (bill: Float) {
+    func calculateTip (bill: Double) {
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
         print("bill \(bill)")
